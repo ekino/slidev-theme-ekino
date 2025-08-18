@@ -1,0 +1,7 @@
+.slidev-layout ul {
+  list-style-type: disc;
+
+  li {
+    margin-left: 0.8em;
+  }
+}

@@ -1,0 +1,63 @@
+---
+theme: ./
+transition: slide-left
+title: Ekino - Template Slidev
+highlighter: shiki
+layout: cover
+---
+
+# ekino - Slidev template
+
+<br />
+
+_Create Slidev presentations using ekino's visual identity_
+
+<br />
+<br />
+
+
+<SpeakerCard name="Maxime Dubourg" title="Ingénieur Front-end Sénior">
+  <p>maxime.dubourg@ekino.com</p>
+  <p>+33 1 23 45 67 89</p>
+</SpeakerCard>
+
+---
+
+# Main title
+
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+- Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+- Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+- Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+- Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt moll
+
+---
+
+# Main title again
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+<br />
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+```bash
+pnpm i @ekino/slidev-theme-ekino
+```
+
+---
+layout: title
+---
+
+# Slide with title layout
+
+---
+layout: thank_you
+---
+
+::speaker::
+
+<SpeakerCard name="Maxime Dubourg" title="Ingénieur Front-end Sénior">
+  <p>📬 maxime.dubourg@ekino.com</p>
+  <p>📞 +33 1 23 45 67 89</p>
+</SpeakerCard>
