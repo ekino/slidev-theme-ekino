@@ -7,3 +7,6 @@ trim_trailing_whitespace = true
 indent_style = space
 indent_size = 2
 end_of_line = lf
+
+# JetBrains IDEs
+ij_html_space_inside_empty_tag = true # Force formatting to `<br />` instead of `<br/>`
