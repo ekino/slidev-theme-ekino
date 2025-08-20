@@ -6,6 +6,8 @@ This is basically a copy of ekino's Powerpoint template, but for Slidev.
 
 Contributions are welcome ! 🤓
 
+[![NPM](https://nodei.co/npm/@ekino/slidev-theme-ekino.svg)](https://www.npmjs.com/package/@ekino/slidev-theme-ekino)
+
 ## Usage
 
 1. Create a Slidev project following [the docs](https://sli.dev/guide/).
