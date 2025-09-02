@@ -41,13 +41,35 @@ The default layout of the first slide.
 
 The layout for almost all-yellow slides with bold centered title.
 
+#### `layout: two-cols`
+
+A layout with two columns, providing two optional `::left::` and `::right::` slots.
+
+```md
+---
+layout: two-cols
+---
+
+# This takes the full width
+
+::left::
+
+## Left
+
+This shows on the left
+
+::right::
+
+## Right
+
+This shows on the right
+```
+
 #### `layout: thank_you`
 
 The layout to end your presentation.
 
-##### `layout: thank_you` `::speaker::`
-
-This layout provides an optional `speaker` placeholder, located at the bottom right of the slide.
+This layout provides an optional `::speaker::` slot, located at the bottom right of the slide.
 
 You can use the `<SpeakerCard>` component to fill it.
 

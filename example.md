@@ -52,6 +52,28 @@ layout: title
 # Slide with title layout
 
 ---
+layout: two-cols
+---
+
+# This spans on the top
+
+::left::
+
+# Left
+
+This shows on the left
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+::right::
+
+# Right
+
+This shows on the right
+
+![](https://placehold.co/600x400)
+
+---
 layout: thank_you
 ---
 
