@@ -37,6 +37,22 @@ The default layout of any Slidev slide.
 
 The default layout of the first slide.
 
+The layout accepts an optional `::logo::` slot. If not provided, the default ekino logo will be displayed.
+
+```md
+---
+layout: cover
+---
+
+# ekino - Slidev template
+
+_Create Slidev presentations using ekino's visual identity_
+
+::logo::
+
+<img width="100px" src="https://sli.dev/logo.svg" />
+```
+
 #### `layout: title`
 
 The layout for almost all-yellow slides with bold centered title.
