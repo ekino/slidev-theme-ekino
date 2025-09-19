@@ -21,6 +21,10 @@ _Create Slidev presentations using ekino's visual identity_
   <p>+33 1 23 45 67 89</p>
 </SpeakerCard>
 
+::logo::
+
+<img width="100px" src="https://sli.dev/logo.svg" />
+
 ---
 
 # Main title

@@ -12,10 +12,10 @@ import MainLayout from "../components/main-layout.vue";
       aria-hidden="true"
       class="bg-[#FFD900] rounded-full h-[120%] aspect-ratio-square fixed -bottom-[10%] right-0 translate-x-[65%] -z-1"
     >
-      <EkinoLogo
-        class="absolute top-1/2 -translate-y-1/2 left-8"
-        width="150px"
-      />
+      <div class="absolute top-1/2 -translate-y-1/2 left-8">
+        <EkinoLogo v-if="!$slots.logo" width="150px" />
+        <slot v-if="$slots.logo" name="logo" />
+      </div>
     </div>
     <div
       aria-hidden="true"
