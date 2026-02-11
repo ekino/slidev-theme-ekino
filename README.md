@@ -95,7 +95,7 @@ layout: center
 This content is centered on the slide.
 ```
 
-#### `layout: thank_you`
+#### `layout: thank-you`
 
 The layout to end your presentation.
 
@@ -105,7 +105,7 @@ You can use the `<SpeakerCard>` component to fill it.
 
 ```md
 ---
-layout: thank_you
+layout: thank-you
 ---
 
 ::speaker::
@@ -121,7 +121,7 @@ layout: thank_you
 
 #### `<SpeakerCard>`
 
-A component to display a speaker's name, title and contact information. Useful for cover slide for example. Also particularly well-suited for the `speaker` slot in the `thank_you` layout.
+A component to display a speaker's name, title and contact information. Useful for cover slide for example. Also particularly well-suited for the `speaker` slot in the `thank-you` layout.
 
 ```md
 <SpeakerCard name="Maxime Dubourg" title="Ingénieur Front-end Sénior">

@@ -13,7 +13,7 @@ const props = defineProps<{
     <EkinoLogo class="fixed top-7 left-0 -rotate-90" width="50px" />
 
     <p
-      v-if="!hidePageAndTitle || name === 'thank_you'"
+      v-if="!hidePageAndTitle || name === 'thank-you'"
       class="fixed bottom-7 left-9 origin-bottom-left -rotate-90 !m-0 text-2"
     >
       {{ $slidev.configs.title }}
