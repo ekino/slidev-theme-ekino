@@ -91,6 +91,10 @@ Perfect for emphasis or key messages.
 layout: thank-you
 ---
 
+<div class="absolute bottom-10 left-10">
+  <Feedback size="small" url="https://openfeedback.io/" />
+</div>
+
 ::speaker::
 
 <SpeakerCard name="Maxime Dubourg" title="Ingénieur Front-end Sénior">
