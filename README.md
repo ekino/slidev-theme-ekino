@@ -81,6 +81,20 @@ This shows on the left
 This shows on the right
 ```
 
+#### `layout: center`
+
+A layout that centers the content both horizontally and vertically on the slide.
+
+```md
+---
+layout: center
+---
+
+# Centered Content
+
+This content is centered on the slide.
+```
+
 #### `layout: thank_you`
 
 The layout to end your presentation.
