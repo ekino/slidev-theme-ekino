@@ -3,7 +3,7 @@ import MainLayout from "../components/main-layout.vue";
 </script>
 
 <template>
-  <MainLayout hidePageAndTitle name="thank_you" extraClasses="bg-[#FFD900]">
+  <MainLayout hidePageAndTitle name="thank-you" extraClasses="bg-[#FFD900]">
     <div class="w-full z-10 absolute top-30 left-0 flex justify-center">
       <div class="border border-white rounded-full w-80 h-80"></div>
     </div>

@@ -88,7 +88,7 @@ This content is centered on the slide.
 Perfect for emphasis or key messages.
 
 ---
-layout: thank_you
+layout: thank-you
 ---
 
 ::speaker::
