@@ -30,6 +30,6 @@ const textClass = computed(() => {
 <template>
   <div class="feedback-component flex flex-col items-center justify-center">
     <QrcodeVue :value="props.url" :size="qrSize" level="H" />
-    <p :class="['text-center mt-4', textClass]">{{ props.text }}</p>
+    {props.text && <p :class="['text-center mt-4', textClass]">{{ props.text }}</p>}
   </div>
 </template>
