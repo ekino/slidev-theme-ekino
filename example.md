@@ -92,7 +92,7 @@ layout: thank-you
 ---
 
 <div class="absolute bottom-10 left-10">
-  <Feedback size="small" url="https://openfeedback.io/" />
+  <Feedback size="small" url="https://openfeedback.io/" text="Write here anything" />
 </div>
 
 ::speaker::

@@ -2,10 +2,13 @@
 import { computed } from 'vue'
 import QrcodeVue from 'qrcode.vue'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   url: string
   size?: 'small' | 'medium' | 'large'
-}>()
+  text?: string
+}>(), {
+  text: 'Give me a feedback'
+})
 
 const qrSize = computed(() => {
   switch (props.size) {
@@ -26,7 +29,7 @@ const textClass = computed(() => {
 
 <template>
   <div class="feedback-component flex flex-col items-center justify-center">
-    <QrcodeVue :value="url" :size="qrSize" level="H" />
-    <p :class="['text-center mt-4', textClass]">Give me a feedback / Donnez votre avis</p>
+    <QrcodeVue :value="props.url" :size="qrSize" level="H" />
+    <p :class="['text-center mt-4', textClass]">{{ props.text }}</p>
   </div>
 </template>

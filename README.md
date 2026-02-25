@@ -132,16 +132,17 @@ A component to display a speaker's name, title and contact information. Useful f
 
 #### `<Feedback>`
 
-A component to display a QR code linking to a feedback form, along with bilingual text prompting for feedback.
+A component to display a QR code linking to a feedback form, along with custom text if needed.
 
 ```md
-<Feedback url="https://example.com/feedback" size="medium" />
+<Feedback url="https://example.com/feedback" size="medium" text="Rate my presentation" />
 ```
 
 **Props:**
 
 - `url` (required): The URL to encode in the QR code for the feedback link
 - `size` (optional): The size of the QR code and text. Options: `'small'`, `'medium'` (default), `'large'`
+- `text` (optional): A custom text to display below the qrcode
 
 ## Contributing
 
