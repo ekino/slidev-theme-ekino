@@ -114,7 +114,6 @@ layout: thank-you
   <p>📬 maxime.dubourg@ekino.com</p>
   <p>📞 +33 1 23 45 67 89</p>
 </SpeakerCard>
-
 ```
 
 ### Available components
@@ -154,6 +153,10 @@ To begin, just clone the project locally. Once you're set and ready to merge you
 
 1. Bump the `version` field in `package.json`
 
-2. Commit the changes and push it to `master`
+2. Commit the changes and push it to `main`
 
-3. Run `pnpm publish`
+3. Create and push a tag that matches the bumped `version`
+
+4. Create a release with changelog on GitHub
+
+5. Run `pnpm publish`
