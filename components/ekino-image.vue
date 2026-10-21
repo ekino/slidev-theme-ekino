@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
-import { useIsSlideActive, useNav, useSlideContext } from "@slidev/client";
+import { useSlideAnimation } from "../utils/slide-animation";
+import { loadImage } from "../utils/load-image";
 import {
   BLACK_WHITE,
   BW_STRENGTH,
@@ -28,6 +29,10 @@ const props = withDefaults(
 // the width at which a slide is projected (règlement § 6).
 const GRID_RATIO = 1.5;
 const REVEAL_DELAY = 3000;
+// The source is cropped at most at this multiple of the grid before the
+// area-average downscale: enough for the average, without reading the pixels
+// of a full-resolution photo on the main thread.
+const MAX_SOURCE_RATIO = 4;
 
 const root = ref<HTMLElement>();
 const bwCanvas = ref<HTMLCanvasElement>();
@@ -35,19 +40,11 @@ const colorCanvas = ref<HTMLCanvasElement>();
 const failed = ref(false);
 const revealed = ref(false);
 
-const { $renderContext } = useSlideContext();
-const isActive = useIsSlideActive();
-const { isPrintMode } = useNav();
+const { isActive, animated: slideAnimated } = useSlideAnimation();
 
 const withReveal = computed(() => !props.nb && props.reveal);
 // Overviews, presenter previews and exports show the final state
-const animated = computed(
-  () =>
-    withReveal.value &&
-    !isPrintMode.value &&
-    ["slide", "presenter"].includes($renderContext.value) &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-);
+const animated = computed(() => withReveal.value && slideAnimated.value);
 
 let revealTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -59,23 +56,13 @@ watch(
       revealed.value = true;
       return;
     }
+    // Leaving: the slide keeps its current state while it transitions out
+    if (!active) return;
     revealed.value = false;
-    if (active) revealTimer = setTimeout(() => (revealed.value = true), REVEAL_DELAY);
+    revealTimer = setTimeout(() => (revealed.value = true), REVEAL_DELAY);
   },
   { immediate: true },
 );
-
-const images = new Map<string, Promise<HTMLImageElement>>();
-
-function loadImage(src: string) {
-  if (!images.has(src)) {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.src = src;
-    images.set(src, img.decode().then(() => img));
-  }
-  return images.get(src)!;
-}
 
 /** Parses `object-position` into ratios, e.g. "left 30%" → [0, 0.3] */
 function parsePosition(position: string): [number, number] {
@@ -87,7 +74,7 @@ function parsePosition(position: string): [number, number] {
   return [Number.isNaN(x) ? 0.5 : x, Number.isNaN(y) ? 0.5 : y];
 }
 
-/** Crops the source like `object-fit: cover`, at the source resolution: crop before dithering */
+/** Crops the source like `object-fit: cover`, at most MAX_SOURCE_RATIO × the grid: crop before dithering */
 function cropToBox(img: HTMLImageElement, boxW: number, boxH: number) {
   const [px, py] = parsePosition(props.position);
   const boxRatio = boxW / boxH;
@@ -98,13 +85,19 @@ function cropToBox(img: HTMLImageElement, boxW: number, boxH: number) {
   const sx = Math.round((img.naturalWidth - sw) * px);
   const sy = Math.round((img.naturalHeight - sh) * py);
 
+  // Large sources are first reduced by the browser, the recipe's area average does the rest
+  const scale = Math.min(1, (boxW * MAX_SOURCE_RATIO) / sw);
+  const dw = Math.max(1, Math.round(sw * scale));
+  const dh = Math.max(1, Math.round(sh * scale));
+
   const canvas = document.createElement("canvas");
-  canvas.width = sw;
-  canvas.height = sh;
+  canvas.width = dw;
+  canvas.height = dh;
   const ctx = canvas.getContext("2d")!;
-  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, dw, dh);
   // Throws a SecurityError when a remote image does not allow CORS
-  return { data: ctx.getImageData(0, 0, sw, sh).data, width: sw, height: sh };
+  return { data: ctx.getImageData(0, 0, dw, dh).data, width: dw, height: dh };
 }
 
 function paint(canvas: HTMLCanvasElement | undefined, grid: { data: Uint8ClampedArray | Uint8Array; width: number; height: number }, bw: boolean) {
@@ -139,10 +132,15 @@ async function render() {
     if (key !== renderedKey) return;
     const crop = cropToBox(img, gridW, gridH);
     const grid = toGrid(crop, gridW);
-    paint(bwCanvas.value, grid, props.nb || withReveal.value);
+    // The black and white layer is only displayed under a reveal, or alone with `nb`
+    if (props.nb || withReveal.value) paint(bwCanvas.value, grid, true);
     if (!props.nb) paint(colorCanvas.value, grid, false);
     failed.value = false;
   } catch (error) {
+    // A newer render (other source, other size) has taken over
+    if (key !== renderedKey) return;
+    // Allows a later render to try again
+    renderedKey = "";
     failed.value = true;
     console.warn(
       `[EkinoImage] Cannot apply the ekino grain to "${props.src}". Use a local image, or a remote one served with CORS headers.`,
@@ -168,8 +166,9 @@ watch(() => [props.src, props.position, props.nb, props.reveal], render);
   <div
     ref="root"
     :class="['ek-image', { 'ek-image--revealed': revealed, 'ek-image--animated': animated }]"
-    role="img"
-    :aria-label="alt"
+    :role="alt ? 'img' : undefined"
+    :aria-label="alt || undefined"
+    :aria-hidden="alt ? undefined : 'true'"
   >
     <canvas v-show="nb || withReveal" ref="bwCanvas" class="ek-image__layer" aria-hidden="true"></canvas>
     <canvas v-if="!nb" ref="colorCanvas" class="ek-image__layer ek-image__color" aria-hidden="true"></canvas>

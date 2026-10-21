@@ -5,7 +5,12 @@
   @apply overflow-hidden;
 }
 
-.slidev-layout.ek-layout {
+/* Toutes les slides, y compris les layouts intégrés de Slidev que le thème
+   ne redéfinit pas (image-right, section, fact…) : layouts-base.css n'est
+   plus importé, cette base le remplace. :where() garde la spécificité d'une
+   classe, et .slidev-page écarte les .slidev-layout hors slide (dialogue
+   d'information de Slidev). */
+:where(.slidev-page) .slidev-layout {
   position: relative;
   height: 100%;
   padding: 70px var(--ek-margin) 48px;
@@ -122,58 +127,59 @@
     line-height: 1.5 !important;
     padding: 16px !important;
   }
+}
 
-  :not(pre) > code {
-    padding: 0 0.25em;
-    border-radius: 0;
-    background: var(--ek-surface);
-    color: var(--ek-grey-dark);
-    font-size: 0.9em;
-  }
+/* Plus spécifique que `.slidev-layout :not(pre) > code` de Slidev (code.css) */
+.slidev-page .slidev-layout :not(pre) > code {
+  padding: 0 0.25em;
+  border-radius: 0;
+  background: var(--ek-surface);
+  color: var(--ek-grey-dark);
+  font-size: 0.9em;
 }
 
 /* Rythme vertical du contenu. Les éléments sont en :where() : la spécificité
    reste celle d'une classe, et les classes déclarées plus bas (chrome, layouts)
    la surchargent. */
-.ek-layout :where(h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, table) {
+:where(.slidev-page) .slidev-layout :where(h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, table) {
   margin: 0;
 }
 
-.ek-layout :where(h1) + :where(*) {
+:where(.slidev-page) .slidev-layout :where(h1) + :where(*) {
   margin-top: 28px;
 }
 
-.ek-layout :where(h2, h3) + :where(*),
-.ek-layout :where(p, ul, ol, table, .slidev-code-wrapper) + :where(p, ul, ol, table, .slidev-code-wrapper) {
+:where(.slidev-page) .slidev-layout :where(h2, h3) + :where(*),
+:where(.slidev-page) .slidev-layout :where(p, ul, ol, table, .slidev-code-wrapper) + :where(p, ul, ol, table, .slidev-code-wrapper) {
   margin-top: 16px;
 }
 
-.ek-layout :where(*) + :where(h2, h3) {
+:where(.slidev-page) .slidev-layout :where(*) + :where(h2, h3) {
   margin-top: 28px;
 }
 
-.ek-layout :where(h1) + :where(h2) {
+:where(.slidev-page) .slidev-layout :where(h1) + :where(h2) {
   margin-top: 8px;
 }
 
-.ek-layout :where(li) + :where(li) {
+:where(.slidev-page) .slidev-layout :where(li) + :where(li) {
   margin-top: 6px;
 }
 
 /* Slidev impose la marge des blocs de code en !important via cette variable */
-.ek-layout {
+:where(.slidev-page) .slidev-layout {
   --slidev-code-margin: 16px 0 0;
 }
 
-.ek-layout :where(h1) + .slidev-code-wrapper {
+:where(.slidev-page) .slidev-layout :where(h1) + .slidev-code-wrapper {
   --slidev-code-margin: 28px 0 0;
 }
 
-.ek-layout :where(h2, h3) + .slidev-code-wrapper {
+:where(.slidev-page) .slidev-layout :where(h2, h3) + .slidev-code-wrapper {
   --slidev-code-margin: 12px 0 0;
 }
 
-.ek-layout .slidev-code-wrapper:first-child {
+:where(.slidev-page) .slidev-layout .slidev-code-wrapper:first-child {
   --slidev-code-margin: 0;
 }
 
