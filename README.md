@@ -53,7 +53,7 @@ The theme picks them up automatically from your system fonts. Without them, slid
 - **Typography**: the title of a content slide (`#`) is a sub-title in sentence case (PP Neue Corp Normal semibold, 28 pt); display titles in Extended Ultrabold capitals are reserved to title pages and key figures, and automatically step down the size scale so they never overflow.
 - **Code blocks**: monochrome syntax highlighting, the only place where a monospace font is allowed.
 
-A few rules remain yours: one accented information per slide at most, no emoji, no long dash nor middle dot, "ekino" always in lowercase, images with the ekino grain (see the `ekino-trame` skill).
+A few rules remain yours: one accented information per slide at most, no emoji, no long dash nor middle dot, "ekino" always in lowercase, the ekino grain on every illustration photo (use `<EkinoImage>`).
 
 ### Available layouts
 
@@ -129,7 +129,7 @@ layout: toc
 
 #### `layout: title`
 
-The part title page ("PARTIE .01"). Provide the part number with `number`, and optionally a portrait `image` (apply the ekino grain to it beforehand). A paragraph is displayed above the title.
+The part title page ("PARTIE .01"). Provide the part number with `number`, and optionally a portrait `image`, which gets the ekino grain (see `<EkinoImage>`). A paragraph is displayed above the title.
 
 ```md
 ---
@@ -246,6 +246,26 @@ A component to display a QR code linking to a feedback form, along with custom t
 - `url` (required): The URL to encode in the QR code for the feedback link
 - `size` (optional): The size of the QR code and text. Options: `'small'`, `'medium'` (default), `'large'`
 - `text` (optional): A custom text to display below the qrcode
+
+#### `<EkinoImage>`
+
+Displays a photo with the ekino grain: the dithering of the ekino.fr website (Atkinson dithering on the "Chaotic Neutral" palette in color, on black and white otherwise), computed in the browser with the exact same recipe as the `ekino-trame` script. The photo first shows up in black and white grain, then its color grain version fades in 3 seconds after the slide appears. Exports, overviews and `prefers-reduced-motion` show the final color state.
+
+The component fills its parent (cropped like `object-fit: cover`), and the grain size follows its displayed size on the slide.
+
+```md
+<EkinoImage src="./photo.jpg" alt="Our office" />
+```
+
+**Props:**
+
+- `src` (required): the image URL. Prefer a local image: a remote one must be served with CORS headers, otherwise the grain cannot be computed and a grey fallback is displayed (with a warning in the console)
+- `alt` (optional): the image description
+- `nb` (optional): black and white grain only, without the reveal
+- `reveal` (optional, default `true`): set it to `false` to display the color grain right away
+- `position` (optional, default `50% 50%`): the crop anchor, like CSS `object-position`
+
+Never use it on a profile picture, a screenshot or a logo: those stay sharp.
 
 #### `<EkinoLogo>` and `<EkinoBrand>`
 

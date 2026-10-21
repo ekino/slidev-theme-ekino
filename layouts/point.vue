@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useIsSlideActive, useSlideContext } from "@slidev/client";
+import { useIsSlideActive, useNav, useSlideContext } from "@slidev/client";
 import MainLayout from "../components/main-layout.vue";
 
 const isActive = useIsSlideActive();
 const { $renderContext } = useSlideContext();
+const { isPrintMode } = useNav();
 
 // The disc grows when the slide is shown; exports and overviews get the final state.
 const idle = computed(
-  () => $renderContext.value === "slide" && !isActive.value,
+  () => $renderContext.value === "slide" && !isPrintMode.value && !isActive.value,
 );
 </script>
 

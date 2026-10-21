@@ -29,6 +29,7 @@ layout: toc
 ---
 layout: title
 number: "01"
+image: https://images.unsplash.com/photo-1494522855154-9297ac14b55f?w=800
 ---
 
 # Partie
@@ -47,6 +48,21 @@ eyebrow: Design system
 - Le corps de texte est en PP Neue Corp Normal, 12 pt.
 - Les titres display en capitales sont réservés aux pages de titre et aux chiffres clés.
 - Pas de tiret long, pas de point médian, « ekino » toujours en bas de casse.
+
+---
+layout: two-cols
+eyebrow: Design system
+---
+
+# Toute photo de propos porte le grain ekino
+
+Le composant `<EkinoImage>` applique la trame du site ekino.fr. L'image arrive en grain noir et blanc, puis sa version couleur se révèle trois secondes après l'arrivée de la slide.
+
+Jamais de grain sur une photo de profil, une capture d'écran ou un logo.
+
+::right::
+
+<EkinoImage src="https://images.unsplash.com/photo-1494522855154-9297ac14b55f?w=1600" alt="Une ville vue d'en haut" />
 
 ---
 eyebrow: Design system

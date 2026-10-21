@@ -160,6 +160,23 @@
   margin-top: 6px;
 }
 
+/* Slidev impose la marge des blocs de code en !important via cette variable */
+.ek-layout {
+  --slidev-code-margin: 16px 0 0;
+}
+
+.ek-layout :where(h1) + .slidev-code-wrapper {
+  --slidev-code-margin: 28px 0 0;
+}
+
+.ek-layout :where(h2, h3) + .slidev-code-wrapper {
+  --slidev-code-margin: 12px 0 0;
+}
+
+.ek-layout .slidev-code-wrapper:first-child {
+  --slidev-code-margin: 0;
+}
+
 /* ---------------------------------------------------------------------
    Utilitaires typographiques et couleurs
    --------------------------------------------------------------------- */
@@ -298,6 +315,11 @@
   text-align: center;
 }
 
+/* Le bloc reste centré dans la slide, son contenu se lit aligné à gauche */
+.ek-layout.center .ek-center :where(pre, table, ul, ol) {
+  text-align: left;
+}
+
 /* ---------------------------------------------------------------------
    two-cols : composition 5/7, filet vertical à 427 px
    --------------------------------------------------------------------- */
@@ -386,7 +408,9 @@
     margin: 0;
     font-weight: 800;
     font-size: var(--ek-t3);
-    line-height: 0.8;
+    /* 0,8 du masque, ouvert pour que les capitales accentuées (É, À)
+       ne touchent pas la ligne du dessus */
+    line-height: 0.95;
     text-transform: uppercase;
     overflow-wrap: normal;
   }
@@ -436,7 +460,6 @@
   left: 878px;
   width: 236px;
   height: 360px;
-  object-fit: cover;
 }
 
 /* ---------------------------------------------------------------------
