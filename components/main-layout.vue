@@ -1,39 +1,63 @@
 <script setup lang="ts">
 import EkinoLogo from "./ekino-logo.vue";
+import { useEkinoConfig } from "../utils/theme-config";
 
-const props = defineProps<{
-  name?: string;
-  hidePageAndTitle?: boolean;
-  extraClasses?: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    name?: string;
+    /** Slide background: white for content, dark for title pages, grey for the table of contents */
+    theme?: "light" | "dark" | "grey";
+    /** Shows the logotype, project name, slide number and top rule */
+    chrome?: boolean;
+    /** Source of the data shown on the slide, bottom left */
+    source?: string;
+    copyrightPosition?: "right" | "left" | "middle";
+    extraClasses?: string;
+  }>(),
+  {
+    theme: "light",
+    chrome: true,
+    copyrightPosition: "right",
+  },
+);
+
+const { project, copyright } = useEkinoConfig();
 </script>
 
 <template>
-  <div :class="['slidev-layout relative', name, extraClasses]">
-    <EkinoLogo class="fixed top-7 left-0 -rotate-90" width="50px" />
-
-    <p
-      v-if="!hidePageAndTitle || name === 'thank-you'"
-      class="fixed bottom-7 left-9 origin-bottom-left -rotate-90 !m-0 text-2"
-    >
-      {{ $slidev.configs.title }}
-    </p>
+  <div
+    :class="[
+      'slidev-layout ek-layout',
+      name,
+      { 'ek-dark': theme === 'dark', 'ek-grey': theme === 'grey' },
+      extraClasses,
+    ]"
+  >
+    <template v-if="chrome">
+      <EkinoLogo class="ek-chrome-logo" />
+      <p v-if="project" class="ek-chrome-project">{{ project }}</p>
+      <p
+        class="ek-chrome-page"
+        :aria-label="`Numéro de diapositive : ${$page}`"
+      >
+        _{{ $page }}
+      </p>
+      <div aria-hidden="true" class="ek-chrome-rule"></div>
+    </template>
 
     <slot />
 
-    <div
-      v-if="!hidePageAndTitle"
-      class="fixed top-1/2 right-0 flex gap-x-2 items-center -translate-y-1/2"
-      :aria-label="`Numéro de diapositive : ${$page}`"
+    <p v-if="source" class="ek-source">Source : {{ source }}</p>
+    <p
+      :class="[
+        'ek-copyright',
+        {
+          'ek-copyright--left': copyrightPosition === 'left',
+          'ek-copyright--middle': copyrightPosition === 'middle',
+        },
+      ]"
     >
-      <p class="text-2">{{ $page }}</p>
-      <div aria-hidden="true" class="w-4 h-px bg-stone -translate-y-px"></div>
-    </div>
-
-    <div
-      v-if="!hidePageAndTitle"
-      aria-hidden="true"
-      class="bg-[#FFD900] rounded-full w-7 h-7 fixed bottom-6 -right-2"
-    ></div>
+      {{ copyright }}
+    </p>
   </div>
 </template>

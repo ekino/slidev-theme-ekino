@@ -1,7 +1,103 @@
-.slidev-layout ul {
-  list-style-type: disc;
+/*
+ * ekino design system (Brand Playbook septembre 2026, masque octobre 2026).
+ * Canvas 1280 × 720 : toutes les cotes en px sont celles du masque PowerPoint.
+ */
 
-  li {
-    margin-left: 0.8em;
-  }
+/* PP Neue Corp : la seule famille. Police commerciale (Pangram Pangram), non
+   distribuée avec le thème : elle doit être installée sur le poste.
+   Ces @font-face regroupent les faces installées sous une seule famille.
+   Il n'existe pas de face Bold 700, la plage 600–700 est couverte par
+   Normal Semibold (le « gras » du playbook). */
+@font-face {
+  font-family: "PP Neue Corp";
+  src: local("PP Neue Corp Normal Regular"), local("PPNeueCorp-NormalRegular");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "PP Neue Corp";
+  src: local("PP Neue Corp Normal Semibold"), local("PPNeueCorp-NormalSemibold");
+  font-weight: 600 700;
+  font-style: normal;
+}
+
+/* Extended Ultrabold : titres de pages de titre et chiffres clés uniquement. */
+@font-face {
+  font-family: "PP Neue Corp";
+  src: local("PP Neue Corp Extended Ultrabold"), local("PPNeueCorp-ExtendedUltrabold");
+  font-weight: 800 900;
+  font-style: normal;
+}
+
+:root {
+  /* Palette du thème (six couleurs) */
+  --ek-black: #000000;
+  --ek-grey-dark: #2b2b2b; /* noir de marque, couleur de référence */
+  --ek-grey-line: #3b3b3b;
+  --ek-grey-medium: #a5a5a5;
+  --ek-white: #ffffff;
+  --ek-accent: #e60000; /* une seule information par slide */
+  /* Valeurs utilitaires écran, jamais un fond de slide */
+  --ek-surface: #f2f2f2;
+  --ek-grey-text: #6b6b6b;
+
+  /* Nuances de l'accent : infographies uniquement */
+  --ek-accent-90: #e81919;
+  --ek-accent-80: #eb3333;
+  --ek-accent-70: #ed4c4c;
+  --ek-accent-60: #f06666;
+  --ek-accent-50: #f27f7f;
+  --ek-accent-40: #f59999;
+  --ek-accent-30: #f7b2b2;
+  --ek-accent-20: #facccc;
+  --ek-accent-10: #fce5e5;
+
+  /* Typographie (pt du masque → px du canvas) */
+  --ek-font: "PP Neue Corp", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ek-t1: 141px;
+  --ek-t2: 115px;
+  --ek-t3: 92px;
+  --ek-t4: 73px;
+  --ek-t5: 59px;
+  --ek-t6: 47px;
+  --ek-t7: 29px;
+  --ek-st1: 37px; /* sous-titre : titre d'une slide de contenu */
+  --ek-st2: 19px; /* petit sous-titre */
+  --ek-c1: 19px;
+  --ek-c2: 16px; /* corps, la norme */
+  --ek-c3: 13px; /* légende, source */
+  --ek-eyebrow: 11px; /* surtitre, chrome */
+
+  /* Grille du masque */
+  --ek-margin: 19px;
+
+  --slidev-theme-primary: var(--ek-accent);
+}
+
+/* Couleurs sémantiques par fond : blanc (contenu), noir (pages de titre), gris (sommaire) */
+.slidev-layout {
+  --ek-bg: var(--ek-white);
+  --ek-fg: var(--ek-grey-dark);
+  --ek-muted: var(--ek-grey-text);
+  --ek-line: var(--ek-grey-line);
+}
+
+.slidev-layout.ek-dark {
+  --ek-bg: var(--ek-grey-dark);
+  --ek-fg: var(--ek-white);
+  --ek-muted: var(--ek-grey-medium);
+  --ek-line: var(--ek-grey-medium);
+}
+
+.slidev-layout.ek-grey {
+  --ek-bg: var(--ek-grey-medium);
+  --ek-fg: var(--ek-grey-dark);
+  --ek-muted: var(--ek-grey-dark);
+  --ek-line: var(--ek-grey-dark);
+}
+
+::selection {
+  background: var(--ek-accent);
+  color: var(--ek-white);
 }
