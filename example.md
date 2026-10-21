@@ -1,103 +1,157 @@
 ---
 theme: ./
 transition: slide-left
-title: Ekino - Template Slidev
-highlighter: shiki
+title: ekino - Template Slidev
+themeConfig:
+  project: Template Slidev
+  confidential: true
+  date: Octobre 2026
 layout: cover
 ---
 
-# ekino - Slidev template
+# Template Slidev
 
-<br />
-
-_Create Slidev presentations using ekino's visual identity_
-
-<br />
-<br />
-
-
-<SpeakerCard name="Maxime Dubourg" title="Ingénieur Front-end Sénior">
-  <p>maxime.dubourg@ekino.com</p>
-  <p>+33 1 23 45 67 89</p>
-</SpeakerCard>
-
-::logo::
-
-<img width="100px" src="https://sli.dev/logo.svg" />
+Des présentations Slidev dans le design system ekino
 
 ---
-
-# Main title
-
-- Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-- Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-- Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-- Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-- Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt moll
-
+layout: toc
 ---
 
-# Main title again
+# Sommaire
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+1. Le design system
+   - Typographie, couleurs, fonds
+2. Les layouts
+   - Contenu, colonnes, pages de titre
+3. Les composants
+   - Speaker, feedback
 
-<br />
+---
+layout: title
+number: "01"
+image: https://images.unsplash.com/photo-1494522855154-9297ac14b55f?w=800
+---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+# Partie
+
+Une phrase de cadrage qui situe la partie.
+
+---
+eyebrow: Design system
+---
+
+# Une slide = une idée, le titre dit le message
+
+## Le titre d'une slide de contenu est un sous-titre en casse de phrase
+
+- La couleur de référence est le noir de marque, l'accent signale **une seule** information.
+- Le corps de texte est en PP Neue Corp Normal, 12 pt.
+- Les titres display en capitales sont réservés aux pages de titre et aux chiffres clés.
+- Pas de tiret long, pas de point médian, « ekino » toujours en bas de casse.
+
+---
+layout: two-cols
+eyebrow: Design system
+---
+
+# Toute photo de propos porte le grain ekino
+
+Le composant `<EkinoImage>` applique la trame du site ekino.fr. L'image arrive en grain noir et blanc, puis sa version couleur se révèle trois secondes après l'arrivée de la slide.
+
+Jamais de grain sur une photo de profil, une capture d'écran ou un logo.
+
+::right::
+
+<EkinoImage src="https://images.unsplash.com/photo-1494522855154-9297ac14b55f?w=1600" alt="Une ville vue d'en haut" />
+
+---
+eyebrow: Design system
+source: documentation Slidev
+---
+
+# Le code reste lisible, en monochrome
+
+Les blocs de code sont la seule tolérance pour une police mono : on les traite comme une capture d'outil.
+
+```ts
+export function greet(name: string): string {
+  // Une seule information en accent par slide
+  return `Bonjour ${name}`
+}
+```
 
 ```bash
 pnpm i @ekino/slidev-theme-ekino
 ```
 
 ---
-layout: title
----
-
-# Slide with title layout
-
----
 layout: two-cols
+eyebrow: Layouts
 ---
 
-# This spans on the top
+# Texte à gauche, contenu à droite
+
+La composition 5/7 du masque : une colonne de texte, un filet vertical, une colonne de contenu.
 
 ::left::
 
-# Left
-
-This shows on the left
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Le titre et le texte vivent dans la colonne de gauche.
 
 ::right::
 
-# Right
-
-This shows on the right
-
-![](https://placehold.co/600x400)
+| Layout | Fond | Usage |
+| --- | --- | --- |
+| `cover` | noir | ouverture du deck |
+| `toc` | gris | sommaire |
+| `title` | noir | intercalaire de partie |
+| `default` | blanc | contenu |
+| `two-cols` | blanc | texte et contenu |
+| `center` | blanc | message centré |
+| `quote` | noir | verbatim |
+| `point` | blanc, disque noir | transition « le point » |
+| `thank-you` | noir | fin de deck |
 
 ---
 layout: center
+eyebrow: Layouts
 ---
 
-# Centered Content
+# Un message centré
 
-This content is centered on the slide.
+Pour une emphase ou un message clé.
 
-Perfect for emphasis or key messages.
+---
+layout: quote
+author: Prénom Nom
+role: Nom du poste
+---
+
+La couleur signale et ne décore pas : **une information mise en avant** par slide, pas plus.
+
+---
+layout: point
+---
+
+Nos ingénieurs, votre projet.
+
+---
+layout: title
+number: "02"
+---
+
+# Questions
 
 ---
 layout: thank-you
 ---
 
-<div class="absolute bottom-10 left-10">
-  <Feedback size="small" url="https://openfeedback.io/" text="Write here anything" />
+<div class="absolute right-[19px] bottom-[60px]">
+  <Feedback size="small" url="https://openfeedback.io/" text="Votre avis compte" />
 </div>
 
 ::speaker::
 
 <SpeakerCard name="Maxime Dubourg" title="Ingénieur Front-end Sénior">
-  <p>📬 maxime.dubourg@ekino.com</p>
-  <p>📞 +33 1 23 45 67 89</p>
+  <p>maxime.dubourg@ekino.com</p>
+  <p>+33 1 23 45 67 89</p>
 </SpeakerCard>

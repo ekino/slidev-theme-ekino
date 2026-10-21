@@ -1,10 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import MainLayout from "../components/main-layout.vue";
+
+defineProps<{
+  eyebrow?: string;
+  source?: string;
+}>();
 </script>
 
 <template>
-  <MainLayout name="center">
-    <div class="flex flex-col items-center justify-center h-full">
+  <MainLayout name="center" :source="source">
+    <p class="ek-eyebrow">{{ eyebrow }}</p>
+    <div class="ek-center">
       <slot />
     </div>
   </MainLayout>

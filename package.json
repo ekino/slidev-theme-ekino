@@ -1,6 +1,6 @@
 {
   "name": "@ekino/slidev-theme-ekino",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "type": "module",
   "keywords": [
     "slidev-theme",
@@ -27,8 +27,13 @@
   "slidev": {
     "colorSchema": "light",
     "defaults": {
+      "canvasWidth": 1280,
+      "aspectRatio": "16/9",
       "fonts": {
-        "sans": "Graphik"
+        "sans": "PP Neue Corp",
+        "mono": "ui-monospace, SF Mono, Menlo, Consolas",
+        "local": "PP Neue Corp",
+        "provider": "none"
       }
     }
   }

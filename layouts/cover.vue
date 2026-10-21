@@ -1,29 +1,41 @@
-<script setup>
+<script setup lang="ts">
+import { ref } from "vue";
 import MainLayout from "../components/main-layout.vue";
+import EkinoBrand from "../components/ekino-brand.vue";
+import { useEkinoConfig } from "../utils/theme-config";
+import { DISPLAY_SIZES, useFitTitle } from "../utils/fit-title";
+
+const props = defineProps<{
+  /** Overrides `themeConfig.date` */
+  date?: string;
+}>();
+
+const { project, date: configDate } = useEkinoConfig();
+
+const bottom = ref<HTMLElement>();
+// T3 by default, never smaller than T5
+useFitTitle(bottom, "h1", DISPLAY_SIZES.slice(2, 5));
 </script>
 
 <template>
-  <MainLayout name="cover" hide-page-and-title>
-    <div class="max-w-3/4">
-      <slot />
+  <MainLayout
+    name="cover"
+    theme="dark"
+    :chrome="false"
+    copyright-position="middle"
+  >
+    <EkinoBrand class="ek-brand" />
+    <div v-if="$slots.logo" class="ek-cobrand">
+      <slot name="logo" />
     </div>
 
-    <div
-      aria-hidden="true"
-      class="bg-[#FFD900] rounded-full h-[120%] aspect-ratio-square fixed -bottom-[10%] right-0 translate-x-[65%] -z-1"
-    >
-      <div class="absolute top-1/2 -translate-y-1/2 left-8">
-        <EkinoLogo v-if="!$slots.logo" width="150px" />
-        <slot v-if="$slots.logo" name="logo" />
-      </div>
+    <p class="ek-meta">
+      <span>{{ project }}</span>
+      <span>{{ props.date ?? configDate }}</span>
+    </p>
+
+    <div ref="bottom" class="ek-bottom">
+      <slot />
     </div>
-    <div
-      aria-hidden="true"
-      class="bg-black opacity-10 rounded-full w-50 aspect-ratio-square fixed -bottom-22 right-10"
-    ></div>
-    <div
-      aria-hidden="true"
-      class="fixed w-12 top-1/2 right-0 h-px bg-stone -translate-y-px"
-    ></div>
   </MainLayout>
 </template>

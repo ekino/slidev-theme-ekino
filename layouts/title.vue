@@ -1,22 +1,36 @@
-<script setup>
+<script setup lang="ts">
+import { computed, ref } from "vue";
 import MainLayout from "../components/main-layout.vue";
+import EkinoImage from "../components/ekino-image.vue";
+import { DISPLAY_SIZES, useFitTitle } from "../utils/fit-title";
+
+const props = defineProps<{
+  /** Part number, e.g. "01" (displayed as ".01") */
+  number?: string | number;
+  /** Optional portrait image, the ekino grain is applied to it */
+  image?: string;
+}>();
+
+// YAML reads an unquoted `number: 01` as 1: always two digits
+const partNumber = computed(() =>
+  typeof props.number === "number"
+    ? String(props.number).padStart(2, "0")
+    : props.number,
+);
+
+const bottom = ref<HTMLElement>();
+// T1 by default, never smaller than T4
+useFitTitle(bottom, "h1", DISPLAY_SIZES.slice(0, 4));
 </script>
 
 <template>
-  <MainLayout name="title">
-    <carbon-arrow-right
-      class="absolute top-1/2 -translate-y-1/2 -translate-x-10 opacity-50"
-    />
+  <MainLayout name="title" theme="dark" copyright-position="middle">
+    <EkinoImage v-if="image" class="ek-title-image" :src="image" />
 
-    <slot />
+    <div ref="bottom" class="ek-bottom">
+      <slot />
+    </div>
 
-    <div
-      aria-hidden="true"
-      class="bg-[#FFD900] rounded-full h-[200%] aspect-ratio-square fixed -bottom-[50%] -right-[30%] -z-1"
-    ></div>
-    <div
-      aria-hidden="true"
-      class="bg-black opacity-10 rounded-full w-90 aspect-ratio-square fixed -left-24 top-1/2 -translate-y-1/2"
-    ></div>
+    <p v-if="partNumber !== undefined" class="ek-title-number">.{{ partNumber }}</p>
   </MainLayout>
 </template>

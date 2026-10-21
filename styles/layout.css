@@ -1,74 +1,642 @@
-:root {
-  --slidev-theme-primary: #ffd900;
-}
-
+/* ---------------------------------------------------------------------
+   Base : fond, couleur et typographie des slides
+   --------------------------------------------------------------------- */
 .slidev-page {
   @apply overflow-hidden;
 }
 
-.slidev-layout {
-  @apply px-24 py-16;
+/* Toutes les slides, y compris les layouts intégrés de Slidev que le thème
+   ne redéfinit pas (image-right, section, fact…) : layouts-base.css n'est
+   plus importé, cette base le remplace. :where() garde la spécificité d'une
+   classe, et .slidev-page écarte les .slidev-layout hors slide (dialogue
+   d'information de Slidev). */
+:where(.slidev-page) .slidev-layout {
+  position: relative;
+  height: 100%;
+  padding: 70px var(--ek-margin) 48px;
+  background: var(--ek-bg);
+  color: var(--ek-fg);
+  font-family: var(--ek-font);
+  font-size: var(--ek-c2);
+  line-height: 1.3;
+  letter-spacing: 0;
 
+  /* Titre d'une slide de contenu : sous-titre Normal gras 28 pt, casse de phrase */
   h1 {
-    @apply text-2xl font-semibold;
+    font-size: var(--ek-st1);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: none;
+    text-wrap: balance;
+  }
+
+  /* Petit sous-titre */
+  h2 {
+    font-size: var(--ek-st2);
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: var(--ek-c2);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  strong,
+  b {
+    font-weight: 600;
+  }
+
+  ul {
+    padding-left: 1.1em;
+    list-style-type: disc;
+  }
+
+  ol {
+    padding-left: 1.4em;
+    list-style-type: decimal;
+  }
+
+  li {
+    padding-left: 0.2em;
+  }
+
+  li::marker {
+    color: var(--ek-fg);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+
+  blockquote {
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: var(--ek-c1);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  img {
+    border-radius: 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--ek-c3);
+  }
+
+  th {
+    font-weight: 600;
+    text-align: left;
+  }
+
+  th,
+  td {
+    padding: 10px 12px 10px 0;
+    border-bottom: 1px solid var(--ek-line);
+  }
+
+  /* Code : seule tolérance pour la police mono (une capture d'outil) */
+  pre,
+  code {
+    user-select: text;
+  }
+
+  code {
+    font-family: var(--slidev-code-font-family, ui-monospace, monospace);
+  }
+
+  .slidev-code-wrapper,
+  .slidev-code {
+    border-radius: 0 !important;
+  }
+
+  .slidev-code {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    padding: 16px !important;
   }
 }
 
-.slidev-layout.cover {
-  @apply flex flex-col justify-center gap-3;
+/* Plus spécifique que `.slidev-layout :not(pre) > code` de Slidev (code.css) */
+.slidev-page .slidev-layout :not(pre) > code {
+  padding: 0 0.25em;
+  border-radius: 0;
+  background: var(--ek-surface);
+  color: var(--ek-grey-dark);
+  font-size: 0.9em;
+}
 
-  h1,
+/* Rythme vertical du contenu. Les éléments sont en :where() : la spécificité
+   reste celle d'une classe, et les classes déclarées plus bas (chrome, layouts)
+   la surchargent. */
+:where(.slidev-page) .slidev-layout :where(h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, table) {
+  margin: 0;
+}
+
+:where(.slidev-page) .slidev-layout :where(h1) + :where(*) {
+  margin-top: 28px;
+}
+
+:where(.slidev-page) .slidev-layout :where(h2, h3) + :where(*),
+:where(.slidev-page) .slidev-layout :where(p, ul, ol, table, .slidev-code-wrapper) + :where(p, ul, ol, table, .slidev-code-wrapper) {
+  margin-top: 16px;
+}
+
+:where(.slidev-page) .slidev-layout :where(*) + :where(h2, h3) {
+  margin-top: 28px;
+}
+
+:where(.slidev-page) .slidev-layout :where(h1) + :where(h2) {
+  margin-top: 8px;
+}
+
+:where(.slidev-page) .slidev-layout :where(li) + :where(li) {
+  margin-top: 6px;
+}
+
+/* Slidev impose la marge des blocs de code en !important via cette variable */
+:where(.slidev-page) .slidev-layout {
+  --slidev-code-margin: 16px 0 0;
+}
+
+:where(.slidev-page) .slidev-layout :where(h1) + .slidev-code-wrapper {
+  --slidev-code-margin: 28px 0 0;
+}
+
+:where(.slidev-page) .slidev-layout :where(h2, h3) + .slidev-code-wrapper {
+  --slidev-code-margin: 12px 0 0;
+}
+
+:where(.slidev-page) .slidev-layout .slidev-code-wrapper:first-child {
+  --slidev-code-margin: 0;
+}
+
+/* ---------------------------------------------------------------------
+   Utilitaires typographiques et couleurs
+   --------------------------------------------------------------------- */
+/* Titres display : Extended Ultrabold, toujours en capitales.
+   Réservés aux pages de titre et aux chiffres clés. */
+.ek-t1,
+.ek-t2,
+.ek-t3,
+.ek-t4,
+.ek-t5,
+.ek-t6,
+.ek-t7 {
+  font-family: var(--ek-font);
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  overflow-wrap: normal;
+}
+
+.ek-t1 { font-size: var(--ek-t1); }
+.ek-t2 { font-size: var(--ek-t2); }
+.ek-t3 { font-size: var(--ek-t3); }
+.ek-t4 { font-size: var(--ek-t4); }
+.ek-t5 { font-size: var(--ek-t5); }
+.ek-t6 { font-size: var(--ek-t6); }
+.ek-t7 { font-size: var(--ek-t7); }
+
+.ek-c1 { font-size: var(--ek-c1); }
+.ek-c2 { font-size: var(--ek-c2); }
+.ek-c3 { font-size: var(--ek-c3); }
+
+/* Surtitre : Normal gras 8 pt, capitales */
+.ek-eyebrow {
+  margin: 0;
+  font-size: var(--ek-eyebrow);
+  font-weight: 600;
+  line-height: 13px;
+  text-transform: uppercase;
+}
+
+/* Légende : complément, précision secondaire */
+.ek-caption {
+  font-size: var(--ek-c3);
+  color: var(--ek-muted);
+}
+
+.ek-accent { color: var(--ek-accent); }
+.ek-muted { color: var(--ek-muted); }
+
+/* ---------------------------------------------------------------------
+   Chrome : logotype, nom du projet, numéro, filet, source, copyright
+   --------------------------------------------------------------------- */
+.ek-chrome-logo {
+  position: absolute;
+  top: 19px;
+  left: var(--ek-margin);
+  width: 37px;
+  color: var(--ek-fg);
+}
+
+.ek-chrome-project,
+.ek-chrome-page {
+  position: absolute;
+  top: 16px;
+  margin: 0;
+  font-size: var(--ek-eyebrow);
+  line-height: 13px;
+  white-space: nowrap;
+}
+
+.ek-chrome-project {
+  left: 50%;
+  translate: -50% 0;
+  text-transform: uppercase;
+}
+
+.ek-chrome-page {
+  right: var(--ek-margin);
+}
+
+.ek-chrome-rule {
+  position: absolute;
+  top: 34px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--ek-line);
+}
+
+.ek-source,
+.ek-copyright {
+  position: absolute;
+  bottom: 20px;
+  margin: 0;
+  font-size: var(--ek-eyebrow);
+  line-height: 16px;
+  color: var(--ek-muted);
+  white-space: nowrap;
+}
+
+.ek-source {
+  left: var(--ek-margin);
+}
+
+.ek-copyright {
+  right: var(--ek-margin);
+}
+
+.ek-copyright--left {
+  left: var(--ek-margin);
+  right: auto;
+}
+
+/* Couverture, intercalaire, fin : sur la ligne du milieu */
+.ek-copyright--middle {
+  top: 396px;
+  bottom: auto;
+}
+
+/* ---------------------------------------------------------------------
+   default / center
+   --------------------------------------------------------------------- */
+.ek-layout > .ek-eyebrow,
+.ek-col-left > .ek-eyebrow {
+  height: 13px;
+  margin-bottom: 15px;
+}
+
+.ek-layout.center .ek-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100% - 28px);
+  text-align: center;
+}
+
+/* Le bloc reste centré dans la slide, son contenu se lit aligné à gauche */
+.ek-layout.center .ek-center :where(pre, table, ul, ol) {
+  text-align: left;
+}
+
+/* ---------------------------------------------------------------------
+   two-cols : composition 5/7, filet vertical à 427 px
+   --------------------------------------------------------------------- */
+.ek-layout.two-cols .ek-col-left {
+  position: absolute;
+  top: 70px;
+  left: var(--ek-margin);
+  width: 370px;
+  bottom: 48px;
+}
+
+.ek-layout.two-cols .ek-col-rule {
+  position: absolute;
+  top: 34px;
+  bottom: 0;
+  left: 427px;
+  width: 1px;
+  background: var(--ek-line);
+}
+
+.ek-layout.two-cols .ek-col-right {
+  position: absolute;
+  top: 98px;
+  left: 464px;
+  right: var(--ek-margin);
+  bottom: 48px;
+}
+
+.ek-layout.two-cols .ek-col-left > * + .ek-col-slot {
+  margin-top: 28px;
+}
+
+/* ---------------------------------------------------------------------
+   Pages de titre : couverture, intercalaire, fin
+   --------------------------------------------------------------------- */
+.ek-brand {
+  position: absolute;
+  top: 19px;
+  left: var(--ek-margin);
+  width: 100px;
+  color: var(--ek-fg);
+}
+
+.ek-cobrand {
+  position: absolute;
+  top: 19px;
+  left: 151px;
+  display: flex;
+  align-items: center;
+  height: 38px;
+
+  img,
+  svg {
+    max-height: 38px;
+    width: auto;
+  }
+}
+
+.ek-meta {
+  position: absolute;
+  top: 354px;
+  left: var(--ek-margin);
+  right: var(--ek-margin);
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  margin: 0;
+  font-size: var(--ek-eyebrow);
+  line-height: 13px;
+  text-transform: uppercase;
+  color: var(--ek-muted);
+}
+
+/* Le titre géant et son texte, posés en bas à gauche */
+.ek-layout .ek-bottom {
+  position: absolute;
+  left: var(--ek-margin);
+  right: var(--ek-margin);
+  bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  h1 {
+    order: 2;
+    margin: 0;
+    font-weight: 800;
+    font-size: var(--ek-t3);
+    /* 0,8 du masque, ouvert pour que les capitales accentuées (É, À)
+       ne touchent pas la ligne du dessus */
+    line-height: 0.95;
+    text-transform: uppercase;
+    overflow-wrap: normal;
+  }
+
+  h1 + * {
+    margin-top: 0;
+  }
+
+  > :not(h1) {
+    order: 1;
+    max-width: 720px;
+  }
+
   p {
-    @apply m-0;
+    font-size: var(--ek-c1);
+    font-weight: 600;
+    line-height: 1.2;
   }
+}
+
+/* Intercalaire « PARTIE .01 » */
+.ek-layout.title .ek-bottom {
+  /* Boîte « Partie » du masque : 742 px de large */
+  right: auto;
+  width: 742px;
+  bottom: 4px;
 
   h1 {
-    @apply text-5xl font-semibold;
+    font-size: var(--ek-t1);
   }
 }
 
-.slidev-layout.title {
-  @apply flex flex-col justify-center pl-2/5 text-left;
+.ek-layout.title .ek-title-number {
+  position: absolute;
+  right: var(--ek-margin);
+  bottom: 4px;
+  margin: 0;
+  font-weight: 800;
+  font-size: var(--ek-t1);
+  line-height: 0.8;
+  text-transform: uppercase;
+}
 
-  h1 {
-    @apply text-4xl font-semibold m-0;
+.ek-layout.title .ek-title-image {
+  position: absolute;
+  top: 360px;
+  left: 878px;
+  width: 236px;
+  height: 360px;
+}
+
+/* ---------------------------------------------------------------------
+   toc : sommaire sur fond gris
+   --------------------------------------------------------------------- */
+.ek-layout.toc {
+  > h1 {
+    font-weight: 800;
+    font-size: var(--ek-t3);
+    line-height: 0.8;
+    text-transform: uppercase;
+    margin-top: -2px;
+  }
+
+  ol {
+    position: absolute;
+    left: 641px;
+    right: var(--ek-margin);
+    bottom: 19px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: ek-toc;
+  }
+
+  ol > li {
+    position: relative;
+    padding: 0 0 0 72px;
+    font-size: var(--ek-st2);
+    font-weight: 600;
+    line-height: 1.1;
+    counter-increment: ek-toc;
+  }
+
+  ol > li + li {
+    margin-top: 36px;
+  }
+
+  ol > li::before {
+    content: counter(ek-toc, decimal-leading-zero) ".";
+    position: absolute;
+    left: 0;
+    top: -6px;
+    font-size: var(--ek-t7);
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  ol > li > ul {
+    margin-top: 10px;
+    padding: 0;
+    list-style: none;
+    font-size: var(--ek-c2);
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  ol > li > ul > li {
+    padding: 0;
+    margin: 0;
   }
 }
 
-.slidev-layout.thank-you {
-  p {
-    @apply m-0;
+/* ---------------------------------------------------------------------
+   quote : verbatim sur fond noir
+   --------------------------------------------------------------------- */
+.ek-layout.quote {
+  .ek-quote-mark {
+    position: absolute;
+    top: 216px;
+    left: 180px;
+    width: 70px;
+    color: var(--ek-accent);
+  }
+
+  .ek-quote-body {
+    position: absolute;
+    top: 269px;
+    left: 269px;
+    width: 743px;
+  }
+
+  .ek-quote-text {
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 1.05;
+    text-wrap: pretty;
+
+    p + p {
+      margin-top: 16px;
+    }
+
+    strong {
+      color: var(--ek-accent);
+    }
+  }
+
+  .ek-quote-author {
+    margin-top: 22px;
+    font-size: var(--ek-eyebrow);
+    line-height: 13px;
   }
 }
 
-@font-face {
-  font-family: "Graphik";
-  src: url("./fonts/Graphik-Bold.otf") format("opentype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: auto;
+/* ---------------------------------------------------------------------
+   point : transition, un disque noir qui grandit
+   --------------------------------------------------------------------- */
+@property --ek-point-r {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
 }
 
-@font-face {
-  font-family: "Graphik";
-  src: url("./fonts/Graphik-Medium.otf") format("opentype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: auto;
+.ek-layout.point {
+  .ek-point-disc {
+    --ek-point-r: 535px;
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+      circle at 50% 50%,
+      var(--ek-grey-dark) 0 var(--ek-point-r),
+      transparent calc(var(--ek-point-r) + 1px)
+    );
+    background-repeat: no-repeat;
+    transition: --ek-point-r 600ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .ek-point-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 780px;
+    translate: -50% -50%;
+    color: var(--ek-white);
+    text-align: center;
+    transition: opacity 250ms cubic-bezier(0.2, 0.8, 0.2, 1) 450ms;
+
+    p,
+    h1 {
+      font-size: var(--ek-st1);
+      font-weight: 600;
+      line-height: 1.1;
+      text-wrap: balance;
+    }
+  }
 }
 
-@font-face {
-  font-family: "Graphik";
-  src: url("./fonts/Graphik-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: auto;
+.ek-layout.point.ek-point--idle {
+  .ek-point-disc {
+    --ek-point-r: 0px;
+    transition: none;
+  }
+
+  .ek-point-text {
+    opacity: 0;
+    transition: none;
+  }
 }
 
-@font-face {
-  font-family: "Graphik";
-  src: url("./fonts/Graphik-Light.otf") format("opentype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: auto;
+@media (prefers-reduced-motion: reduce) {
+  .ek-layout.point .ek-point-disc,
+  .ek-layout.point .ek-point-text {
+    transition: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   thank-you : fin de deck
+   --------------------------------------------------------------------- */
+.ek-layout.thank-you .ek-speaker {
+  position: absolute;
+  top: 250px;
+  left: var(--ek-margin);
 }
